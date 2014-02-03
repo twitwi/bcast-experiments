@@ -4,19 +4,51 @@
     // TODO have a way of starting record-mode.
     playBrowserCast();
 
-    // Use the audio timeupdates to drive existing slides.
-    function playBrowserCast() {
-        var slides, audio, slideCues, i, cue;
+    function SlideCue(time, slideIndex) {
+        this.time = time;
+        this.slideIndex = slideIndex;
+    }
+    SlideCue.prototype.focus = function () {
+        Reveal.navigateTo(this.slideIndex);
+    };
 
+    function FragmentCue(time, slideIndex, fragmentIndex) {
+        this.time = time;
+        this.slideIndex = slideIndex;
+        this.fragmentIndex = fragmentIndex;
+    }
+    FragmentCue.prototype.focus = function () {
+        var slide, slideFragments, targetFragment;
+        slide = Reveal.getSlide(this.slideIndex);
+        if (Reveal.getCurrentSlide() !== slide) {
+            Reveal.slide(this.slideIndex);
+        }
+        slideFragments = slide.getElementsByClassName('fragment');
+        targetFragment = slideFragments[this.fragmentIndex];
+        targetFragment.attributes['class'] += " visible current-fragment";
+    };
+
+    function getSlideCues() {
+        var slides, slideCues, cue, cueTime, cueTimeRaw;
         // Get a list of the slides and their cue times.
         slides = document.getElementsByTagName('section');
         slideCues = [];
         for (i = 0; i < slides.length; i += 1) {
             if (typeof slides[i].attributes['data-bccue'] !== 'undefined') {
-                cue = [parseFloat(slides[i].attributes['data-bccue'].value), i];
+                cueTimeRaw = slides[i].attributes['data-bccue'].value;
+                cueTime = parseFloat(cueTimeRaw);
+                cue = new SlideCue(cueTime, i);
                 slideCues.push(cue);
             }
         }
+        return slideCues;
+    }
+
+    // Use the audio timeupdates to drive existing slides.
+    function playBrowserCast() {
+        var audio, slideCues;
+
+        slideCues = getSlideCues();
 
         // Look for the browsercast audio element.
         audio = document.getElementById('browsercast-audio');
@@ -26,13 +58,13 @@
             var time, i, validCues = [], lastValidCue;
             time = this.currentTime;
             for (i = 0; i < slideCues.length; i++) {
-                if (slideCues[i][0] <= time) {
+                if (slideCues[i].time <= time) {
                     validCues.push(slideCues[i]);
                 }
             }
             lastValidCue = validCues[validCues.length-1];
             if (typeof lastValidCue !== 'undefined') {
-                Reveal.navigateTo(lastValidCue[1]);
+                lastValidCue.focus();
             }
         });
 
