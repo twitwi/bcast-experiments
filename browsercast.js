@@ -79,7 +79,8 @@
         // Look for the browsercast audio element.
         audio = document.getElementById('browsercast-audio');
 
-        // Transition lock
+        // lock for preventing slidechanged event handler during timeupdate handler.
+        // TODO using a mutex seems clunky.
         var transitionLock = false;
 
         // When the time updates, see if it's a good time to navigate.
