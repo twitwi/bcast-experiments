@@ -8,6 +8,7 @@
         this.time = time;
         this.slideIndex = slideIndex;
     }
+
     SlideCue.prototype.focus = function () {
         Reveal.navigateTo(this.slideIndex);
     };
@@ -17,28 +18,53 @@
         this.slideIndex = slideIndex;
         this.fragmentIndex = fragmentIndex;
     }
+
     FragmentCue.prototype.focus = function () {
         var slide, slideFragments, targetFragment;
         slide = Reveal.getSlide(this.slideIndex);
-        if (Reveal.getCurrentSlide() !== slide) {
+        if (Reveal.getIndices()['h'] !== this.slideIndex) {
             Reveal.slide(this.slideIndex);
         }
         slideFragments = slide.getElementsByClassName('fragment');
         targetFragment = slideFragments[this.fragmentIndex];
-        targetFragment.attributes['class'] += " visible current-fragment";
+        targetFragment.classList.add("visible");
+        targetFragment.classList.add("current-fragment");
     };
 
+    function getSectionFragmentCues(section, slideIndex) {
+        var fragmentTags, fragmentTag, cue, cueTime, fragmentCues, i;
+        fragmentTags = section.getElementsByClassName('fragment');
+
+        fragmentCues = [];
+        for (i = 0; i < fragmentTags.length; i += 1) {
+            fragmentTag = fragmentTags[i];
+            cueTime = parseCueTime(fragmentTag);
+            cue = new FragmentCue(
+                cueTime,
+                slideIndex,
+                i
+            );
+            fragmentCues.push(cue);
+        }
+        return fragmentCues;
+    }
+
+    function parseCueTime(tag) {
+        return parseFloat(tag.attributes['data-bccue'].value);
+    }
+
     function getSlideCues() {
-        var slides, slideCues, cue, cueTime, cueTimeRaw;
+        var slides, slideCues, cue, cueTime, subCues;
         // Get a list of the slides and their cue times.
         slides = document.getElementsByTagName('section');
         slideCues = [];
         for (i = 0; i < slides.length; i += 1) {
             if (typeof slides[i].attributes['data-bccue'] !== 'undefined') {
-                cueTimeRaw = slides[i].attributes['data-bccue'].value;
-                cueTime = parseFloat(cueTimeRaw);
+                cueTime = parseCueTime(slides[i]);
                 cue = new SlideCue(cueTime, i);
                 slideCues.push(cue);
+                subCues = getSectionFragmentCues(slides[i], i);
+                slideCues = slideCues.concat(subCues);
             }
         }
         return slideCues;
