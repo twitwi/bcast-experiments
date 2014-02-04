@@ -79,32 +79,42 @@
         // Look for the browsercast audio element.
         audio = document.getElementById('browsercast-audio');
 
+        // Transition lock
+        var transitionLock = false;
+
         // When the time updates, see if it's a good time to navigate.
         audio.addEventListener('timeupdate', function () {
-            var time, i, validCues = [], lastValidCue;
+            var time, i, validCues = [], lastValidCue, curCue, done;
             time = this.currentTime;
-            for (i = 0; i < slideCues.length; i++) {
-                if (slideCues[i].time <= time) {
-                    validCues.push(slideCues[i]);
+            done = false;
+            for (i = 0; i < slideCues.length && !done; i++) {
+                curCue = slideCues[slideCues.length - 1 - i];
+                if (curCue.time <= time) {
+                    transitionLock = true;
+                    curCue.focus();
+                    done = true;
+                    transitionLock = false;
                 }
-            }
-            lastValidCue = validCues[validCues.length-1];
-            if (typeof lastValidCue !== 'undefined') {
-                lastValidCue.focus();
             }
         });
 
-        // TODO this shouldn't run if the timeupdate handler is changing
-        // the slide; otherwise we're constantly seeking in the audio
-        // for no good reason.
         Reveal.addEventListener('slidechanged', function (event) {
             var cueTimeRaw, cueTime, indexh, newSlide;
+            if (transitionLock) {
+                // If this slidechanged event was caused by the timeupdate event,
+                // don't seek in the audio; an unnecessary stutter will occur otherwise.
+                return;
+            }
+
             // For some reason event.currentSlide refers to the slide we just left instead of the one we're navigating to.
             indexh = event.indexh;
+
+            // Extract the desired audio time from the target slide and seek to that time.
             newSlide = Reveal.getSlide(indexh);
-            cueTimeRaw = newSlide.attributes['data-bccue'].value;
-            cueTime = parseFloat(cueTimeRaw);
+            cueTime = parseCueTime(newSlide);
             audio.currentTime = cueTime;
+
+            // If the slide changed after the 'cast finished, get the audio moving again.
             audio.play();
         });
 
