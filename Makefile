@@ -10,5 +10,6 @@ release :
 	sed -i -e 's!\.\./!\./!g' $(RELEASE_DIR)/index.html
 	cp -r css $(RELEASE_DIR)
 	cp -r js $(RELEASE_DIR)
+	cp -r lib $(RELEASE_DIR)
 	cp -r plugin $(RELEASE_DIR)
 	cd $(RELEASE_PARENT) && tar zcvf $(RELEASE_FILE) $(RELEASE_CHILD)
