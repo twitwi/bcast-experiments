@@ -13,6 +13,13 @@
     font-size: 28px;
 }
 
+a[href] {
+    color: #13DAEC;
+}
+a[href]:hover {
+    color: #71E9F4;
+}
+
 div.deck-container {
   /* */
   /* */
