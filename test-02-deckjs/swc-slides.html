@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Explaining Motivation Slides</title>
+    <meta name="description" content="Explaining Motivation Slides">
+    <meta name="author" content="Rémi Emonet">
+    <meta name="timings" content="swc-slides.json">
+
+    <!--[if lt IE 9]>
+    <script src="../lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <script src="deckjs-custom.js"></script>
+    <script>
+        includedeck(["software-carpentry.css",
+          "player.css",
+          "../css/browsercast.css",
+          "../lib/js/head.min.js",
+          "../js/popcorn.js",
+          "../js/browsercast-deckjs.js"
+        ], {
+            fitMarginY: 30
+        })
+    </script>
+    <style>
+        .redbox { background: #FCC; }
+    </style>
+
+  </head>
+  <body>
+    <div class="deck-container">
+
+        <div class="slide title-slide" data-container-class="no-status">
+            <h1 class="var-title"></h1>
+            <img class="logo" src="software-carpentry-banner.png" alt="Software Carpentry"/>
+        </div>
+
+        <section class="slide">
+            <h2>Header in motivation.md</h2>
+            <pre style="display: inline-block;">
+---
+<span class="slide">layout: slides</span>
+<span class="slide">title: Introduction to Git</span>
+<span class="slide">title-h: h1</span>
+---
+            </pre>
+        </section>
+
+        <section class="slide">
+            <h2>Slide in motivation.md</h2>
+            <pre style="display: inline-block;">
+<span class="slide">&lt;section class="slide"></span>
+<span class="slide">## Why this subject</span>
+<span class="slide anim-continue">- Because it rocks</span>
+<span class="slide">- Because it's open</span>
+<span class="slide anim-continue"><span class="redbox">    </span>- reviewed</span>
+<span class="slide"><span class="redbox">    </span>- live</span>
+<span class="slide anim-continue redbox">                        </span>
+<span class="slide">&lt;/section></span>
+            </pre>
+        </section>
+
+        <section class="slide media-left">
+            <h2>Images on the sides</h2>
+            <img src="internet-cat.jpg" />
+            <pre>
+&lt;section class="<span class="redbox">media-left</span> slide">
+## Meow
+<span class="redbox">![](internet-cat.jpg)</span>
+            </pre>
+        </section>
+
+        <section class="slide media-right">
+            <h2>Images on the other side</h2>
+            <img src="internet-cat.jpg" />
+            <pre>
+&lt;section class="<span class="redbox">media-right</span> slide">
+## Meow
+![](internet-cat.jpg)
+            </pre>
+        </section>
+
+        <section class="slide media-left">
+            <h2>Works also with code, etc</h2>
+<pre><code>a = 2
+b = 3
+c = a**b
+print(c)
+
+a = 4
+print(c)</code></pre>
+            <pre>
+&lt;section class="<span class="redbox">media-left</span> slide">
+## Python basics
+~~~
+a = 2
+b = 3
+...
+~~~</pre>
+        </section>
+
+        <section class="slide">
+            <h2>Stacking on the left/right <br/> in 1/12<sup>th</sup> of the width</h2>
+            <div class="left c3"><img src="internet-cat.jpg"/></div>
+            <div class="left c8">
+                <pre>
+&lt;div class="<span class="redbox">left c3</span>">
+![](internet-cat.jpg)
+&lt;/div>                </pre>
+            </div>
+        </section>
+
+        <section class="slide">
+            <h2>Custom columns, in 1/12<sup>th</sup></h2>
+            <div class="left c4">
+                A paragraph that takes 4 columns, and that's it.
+            </div>
+            <div class="left c6">
+                <blockquote>
+                    <p>A blockquote that takes 6 columns, and that's it.</p>
+                </blockquote>
+            </div>
+            <div class="left c2">
+                A paragraph that takes 2 columns, and that's it.
+            </div>
+        </section>
+
+
+        <section class="slide image-stripes">
+            <h2>Custom columns, in 1/24<sup>th</sup></h2>
+            <div class="left C3">
+                <img src="https://farm7.staticflickr.com/6033/6236448218_85624c06df_z.jpg" />
+            </div>
+            <div class="left C1">
+                a b c d e
+            </div>
+            <div class="left C11">
+                <img src="https://farm3.staticflickr.com/2043/1574622672_9a917b5524_z.jpg" />
+            </div>
+            <div class="left C2">
+                a b c d e
+            </div>
+            <div class="left C7">
+                <img src="https://farm9.staticflickr.com/8184/8434574613_efd5c0b7d7.jpg" />
+            </div>
+        </section>
+
+        <section class="slide">
+            <h1>Thanks for listening</h1>
+        </section>
+    </div>
+    
+    <div id="browsercast">
+      <audio id="browsercast-audio">
+          <!--
+              cat swc-slides.txt | text2wave > ,,.wav
+              oggenc -o swc-slides.ogg ,,.wav
+            -->
+        <source src="swc-slides.ogg" type="audio/ogg">
+          Your browser does not support the audio element.
+      </audio>
+      <menu>
+          <button class="playpause"></button>
+      </menu>
+      <div id="markers" class="new">
+          <div class="time-label">1:00</div>
+      </div>
+    </div>
+    
+  </body>
+</html>

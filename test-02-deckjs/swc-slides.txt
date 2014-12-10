@@ -1,0 +1,34 @@
+
+
+Hello...
+This slide deck explains how you can build your motivation slides for every lesson set.
+
+In each lesson, you should have a motivation.md file that contains a deck of slides.
+In the header of the markdown file, there should be:
+
+1: a layout set to "slides".
+2: the title of the lesson.
+3: if you want to have a default title slide, a property named "title-h" set to "h1".
+
+Each slide in the deck should be enclosed in an HTML section tag and with a class equals to slide.
+The title of the slide should be a level 2 heading: in markdown, you should use two hashes.
+As in the lessons themselves, you can create a list of bullet points with dashes.
+In a nested list, you need an indentation of 4 spaces.
+Before closing the section tag, you must always leave an empty line.
+
+If you want to put an image on the left half of a slide, just include it and add the "media-left" class to the slide. You can obviously also use "media-right".
+
+These two classes, "media-left" and "media-right", also work for other type of elements, like code.
+
+For finer grained layout, you can also create divs with a "left" class to stack them on the left.
+Additional classes allow you to control the width of the elements.
+Use lowercase C followed by a number to specify the width in twelves of the total size.
+For instance, the class c3 will make an element cover a quarter of the slide width.
+
+It allows to fine tune the layout at will.
+This is actually close to CSS frameworks such as twitter bootstrap.
+
+Capital C followed by a number can be used for even finer control. It splits the width in 24.
+This way, the Capital C 5 class will make an element cover five twenty-fourth of the total width.
+
+Thanks for listening.
